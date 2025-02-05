@@ -1,0 +1,222 @@
+:root {
+  --dark-bg: #1a1a2e;
+  --dice-color: #16213e;
+  --winner-color: #4CAF50;
+  --loser-color: #e94560;
+  --player-bg: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--dark-bg);
+  color: white;
+}
+
+.background-dice {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.floating-dice {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.1;
+  animation: float 15s infinite linear;
+  filter: hue-rotate(0deg);
+}
+
+@keyframes float {
+  0% {
+      transform: translate(-20vw, -10vh) rotate(0deg);
+  }
+  25% {
+      transform: translate(30vw, 30vh) rotate(360deg);
+  }
+  50% {
+      transform: translate(80vw, 50vh) rotate(720deg);
+  }
+  75% {
+      transform: translate(40vw, 80vh) rotate(1080deg);
+  }
+  100% {
+      transform: translate(-20vw, 110vh) rotate(1440deg);
+  }
+}
+
+/* Add this to your existing styles */
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #fff;
+  font-size: 2em;
+  margin: 30px 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.players {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.player {
+  background: var(--player-bg);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 1 1 300px;
+  backdrop-filter: blur(5px);
+  border: 2px solid transparent;
+}
+
+.player:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.player.winner {
+  background: rgba(76, 175, 80, 0.2);
+  border-color: var(--winner-color);
+  animation: winner-glow 1.5s infinite;
+}
+
+.player.loser {
+  background: rgba(233, 69, 96, 0.2);
+  border-color: var(--loser-color);
+  animation: loser-shake 0.5s;
+}
+
+@keyframes winner-glow {
+  0% { box-shadow: 0 0 10px var(--winner-color); }
+  50% { box-shadow: 0 0 30px var(--winner-color); }
+  100% { box-shadow: 0 0 10px var(--winner-color); }
+}
+
+@keyframes loser-shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  50% { transform: translateX(10px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.dice-container {
+  position: relative;
+  margin: 20px 0;
+}
+
+.dice {
+  width: 120px;
+  height: 120px;
+  border: 3px solid var(--dice-color);
+  border-radius: 15px;
+  margin: 0 auto;
+  position: relative;
+  background: var(--dice-color);
+  transition: transform 0.3s;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+}
+
+.dot-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 100%;
+  padding: 15px;
+}
+
+.dot {
+  background: #fff;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  justify-self: center;
+  align-self: center;
+  display: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.dot.active {
+  display: block;
+  animation: dot-appear 0.3s ease-out;
+}
+
+@keyframes dot-appear {
+  0% { transform: scale(0); }
+  90% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.rolling {
+  animation: roll 0.6s ease-out;
+}
+
+@keyframes roll {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+button {
+  padding: 15px 40px;
+  font-size: 1.2em;
+  background: linear-gradient(45deg, #16213e, #1a1a2e);
+  color: white;
+  border: 2px solid #4CAF50;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #4CAF50;
+}
+
+.winner-message {
+  font-size: 1.5em;
+  color: #4CAF50;
+  margin-top: 30px;
+  min-height: 40px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 768px) {
+  .players {
+      flex-direction: column;
+  }
+  
+  h1 {
+      font-size: 1.5em;
+  }
+  
+  .dice {
+      width: 100px;
+      height: 100px;
+  }
+  
+  button {
+      width: 90%;
+      font-size: 1em;
+  }
+}
